@@ -8,6 +8,6 @@ cocos2d-jsでゲーム作り
     download cocos2d-x-3.8.1
     cd cocos2d-x-3.8.1
     cocos new test -l js 
-    cp test/Frameworks to/path/game/
+    cp test/Frameworks path/to/game/
 
   
