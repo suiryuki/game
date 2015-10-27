@@ -1,12 +1,13 @@
 # game
 cocos2d-jsでゲーム作り
 
-cocos2d-x-3.8.1を使用
+[cocos2d-x-3.8.1](http://cocos2d-x.org/download "download link")
 
-現状
-git clone https://github.com/suiryuki/game.git
-した後、
-cocos2d-x-3.8.1を使用し
-cocos run -p web
-で作成したPJ内Frameworksディレクトリをcloneしたgameディレクトリの下に再帰的にコピーするしか環境構築できません。
 
+    git clone https://github.com/suiryuki/game.git
+    download [cocos2d-x-3.8.1](http://cocos2d-x.org/download "download link")
+    cd cocos2d-x-3.8.1
+    cocos new test -l js 
+    cp test/Frameworks to/path/game/
+
+  
