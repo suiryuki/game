@@ -30,26 +30,63 @@ var FirstLayer = cc.Layer.extend({
 
     onkeydownBegan:function(keyCode, event){
         var target = event.getCurrentTarget();
-        // target._super();
-        var sprites = [];
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 0, 32, 32)), "main0"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "main1"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 0, 32, 32)), "main2"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "main3"); 
-        var i,f;
-        // var sprites=[];
+
+        var downSprites = [];
+        var upSprites = [];
+        var rightSprites = [];
+        var leftSprites = [];
+
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 0, 32, 32)), "down0"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down1"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 0, 32, 32)), "down2"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 32, 32, 32)), "left0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 32, 32, 32)), "left2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 64, 32, 32)), "right0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 64, 32, 32)), "right2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 96, 32, 32)), "up0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 96, 32, 32)), "up2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up3");
+
+        var i,d,l,r,u;
         for (i=0; i<=3;i++){
-            f = cc.spriteFrameCache.getSpriteFrame("main" + i);
-            sprites.push(f);
+            d = cc.spriteFrameCache.getSpriteFrame("down" + i);
+            l = cc.spriteFrameCache.getSpriteFrame("left" + i);
+            r = cc.spriteFrameCache.getSpriteFrame("right" + i);
+            u = cc.spriteFrameCache.getSpriteFrame("up" + i);
+            downSprites.push(d);
+            leftSprites.push(l);
+            rightSprites.push(r);
+            upSprites.push(u);
         }
  
-        var action_down = new cc.RepeatForever(new cc.Animate(new cc.Animation(sprites, 0.2)));
+        var action_down = new cc.RepeatForever(new cc.Animate(new cc.Animation(downSprites, 0.2)));
+        var action_left = new cc.RepeatForever(new cc.Animate(new cc.Animation(leftSprites, 0.2)));
+        var action_right = new cc.RepeatForever(new cc.Animate(new cc.Animation(rightSprites, 0.2)));
+        var action_up = new cc.RepeatForever(new cc.Animate(new cc.Animation(upSprites, 0.2)));
  
         if (keyCode == 37) {
+            if( target.isKeyDown != true){
+                target.sprite.runAction(action_left);
+            }
+            target.isKeyDown = true;
             //左
         } else if (keyCode == 38) {
+            if( target.isKeyDown != true){
+                target.sprite.runAction(action_up);
+            }
+            target.isKeyDown = true;
             //上
         } else if (keyCode == 39) {
+            if( target.isKeyDown != true){
+                target.sprite.runAction(action_right);
+            }
+            target.isKeyDown = true;
             //右
         } else if (keyCode == 40) {
             if( target.isKeyDown != true){
