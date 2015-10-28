@@ -71,30 +71,43 @@ var FirstLayer = cc.Layer.extend({
         var action_up = new cc.RepeatForever(new cc.Animate(new cc.Animation(upSprites, 0.2)));
  
         if (keyCode == 37) {
+            var moveLeft = cc.moveBy(1.0, cc.p(-10, 0));
+            target.sprite.runAction(moveLeft);
+
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_left);
             }
+ 
             target.isKeyDown = true;
             //左
         } else if (keyCode == 38) {
+            var moveUp = cc.moveBy(1.0, cc.p(0, 10));
+            target.sprite.runAction(moveUp);
+
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_up);
             }
+
             target.isKeyDown = true;
             //上
         } else if (keyCode == 39) {
+            var moveRight = cc.moveBy(1.0, cc.p(10, 0));
+            target.sprite.runAction(moveRight);
+ 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_right);
             }
-            target.isKeyDown = true;
+           target.isKeyDown = true;
             //右
         } else if (keyCode == 40) {
+            var moveDown = cc.moveBy(1.0, cc.p(0, -10));
+            target.sprite.runAction(moveDown);
+ 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_down);
             }
-            console.log("debug desu " + target.sprite.x + " " + target.sprite.y);
-            // target.sprite.moveBy(0,1);
-            //下
+
+           //下
             target.isKeyDown = true;
         }
     }
