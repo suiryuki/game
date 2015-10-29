@@ -9,7 +9,7 @@ var FirstLayer = cc.Layer.extend({
 
         this.sprite = new cc.Sprite(res.mainCharacter, cc.rect(0, 0, 32, 32));
          
-        var tiledMap = new cc.TMXTiledMap(res.map1);
+        var tiledMap = new cc.TMXTiledMap(res.machi);
         this.addChild(tiledMap);
 
         this.sprite.attr({x: size.width/2, y: size.height/2});
@@ -72,7 +72,7 @@ var FirstLayer = cc.Layer.extend({
  
         if (keyCode == 37) {
             var moveLeft = cc.moveBy(0.8, cc.p(-10, 0));
-            target.sprite.runAction(moveLeft);
+            // target.sprite.runAction(moveLeft);
 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_left);
@@ -82,7 +82,7 @@ var FirstLayer = cc.Layer.extend({
             //左
         } else if (keyCode == 38) {
             var moveUp = cc.moveBy(0.8, cc.p(0, 10));
-            target.sprite.runAction(moveUp);
+            // target.sprite.runAction(moveUp);
 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_up);
@@ -92,7 +92,7 @@ var FirstLayer = cc.Layer.extend({
             //上
         } else if (keyCode == 39) {
             var moveRight = cc.moveBy(0.8, cc.p(10, 0));
-            target.sprite.runAction(moveRight);
+            // target.sprite.runAction(moveRight);
  
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_right);
@@ -101,7 +101,7 @@ var FirstLayer = cc.Layer.extend({
             //右
         } else if (keyCode == 40) {
             var moveDown = cc.moveBy(0.8, cc.p(0, -10));
-            target.sprite.runAction(moveDown);
+            // target.sprite.runAction(moveDown);
  
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_down);

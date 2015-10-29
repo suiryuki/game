@@ -4,7 +4,8 @@ var res = {
     mainCharacter : "res/201102161855238dc.png",
     map1 : "res/map1.tmx",
     TileA2_png : "res/TileA2.png",
-    CloseSelected_png : "res/CloseSelected.png"
+    CloseSelected_png : "res/CloseSelected.png",
+    machi : "res/machi.tmx"
 };
 
 var g_resources = [];
