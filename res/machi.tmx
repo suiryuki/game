@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="ScreenShot_2015_0620_23_18_55" tilewidth="32" tileheight="32" tilecount="300">
   <image source="ScreenShot_2015_0620_23_18_55.png" width="640" height="480"/>
  </tileset>
- <layer name="タイル・レイヤー1" width="25" height="25">
+ <layer name="main" width="25" height="25">
   <data>
    <tile gid="25"/>
    <tile gid="26"/>
