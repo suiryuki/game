@@ -9,7 +9,7 @@ var FirstLayer = cc.Layer.extend({
 
         this.sprite = new cc.Sprite(res.mainCharacter, cc.rect(0, 0, 32, 32));
          
-        var tiledMap = new cc.TMXTiledMap(res.machi);
+        var tiledMap = new cc.TMXTiledMap(res.map1);
         this.addChild(tiledMap);
 
         this.sprite.attr({x: size.width/2, y: size.height/2});
@@ -69,42 +69,46 @@ var FirstLayer = cc.Layer.extend({
         var action_left = new cc.RepeatForever(new cc.Animate(new cc.Animation(leftSprites, 0.2)));
         var action_right = new cc.RepeatForever(new cc.Animate(new cc.Animation(rightSprites, 0.2)));
         var action_up = new cc.RepeatForever(new cc.Animate(new cc.Animation(upSprites, 0.2)));
- 
+
+        var moveLeft = cc.moveBy(0.1, cc.p(-10, 0));
+        var moveUp = cc.moveBy(0.1, cc.p(0, 10));
+        var moveRight = cc.moveBy(0.1, cc.p(10, 0));
+        var moveDown = cc.moveBy(0.1, cc.p(0, -10));
+
+        var action_move_left = new cc.RepeatForever(moveLeft);
+        var action_move_up = new cc.RepeatForever(moveUp);
+        var action_move_right = new cc.RepeatForever(moveRight);
+        var action_move_down = new cc.RepeatForever(moveDown);
+
         if (keyCode == 37) {
-            var moveLeft = cc.moveBy(0.8, cc.p(-10, 0));
-            // target.sprite.runAction(moveLeft);
 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_left);
+                target.sprite.runAction(action_move_left);
             }
- 
             target.isKeyDown = true;
             //左
         } else if (keyCode == 38) {
-            var moveUp = cc.moveBy(0.8, cc.p(0, 10));
-            // target.sprite.runAction(moveUp);
 
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_up);
+                target.sprite.runAction(action_move_up);
             }
-
             target.isKeyDown = true;
             //上
         } else if (keyCode == 39) {
-            var moveRight = cc.moveBy(0.8, cc.p(10, 0));
-            // target.sprite.runAction(moveRight);
  
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_right);
+                target.sprite.runAction(action_move_right);
             }
            target.isKeyDown = true;
             //右
         } else if (keyCode == 40) {
-            var moveDown = cc.moveBy(0.8, cc.p(0, -10));
-            // target.sprite.runAction(moveDown);
  
             if( target.isKeyDown != true){
                 target.sprite.runAction(action_down);
+                target.sprite.runAction(action_move_down);
             }
             //下
             target.isKeyDown = true;
