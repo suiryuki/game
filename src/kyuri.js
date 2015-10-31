@@ -2,9 +2,10 @@
 var FirstLayer = cc.Layer.extend({
     sprite:null,
     isKeyDown:null,
+    collisionLayer:null,
     ctor:function () {
         this._super();
-
+        this.init();
         var size = cc.winSize;
 
         this.sprite = new cc.Sprite(res.mainCharacter, cc.rect(0, 0, 32, 32));
@@ -15,6 +16,8 @@ var FirstLayer = cc.Layer.extend({
         this.sprite.attr({x: size.width/2, y: size.height/2});
         this.addChild(this.sprite);
  
+        this.collisionLayer = new cc.TMXTiledMap(res.map1).getLayer("collision");
+
         cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             //キー入力したとき
@@ -29,29 +32,13 @@ var FirstLayer = cc.Layer.extend({
     },
 
     onkeydownBegan:function(keyCode, event){
+
         var target = event.getCurrentTarget();
 
         var downSprites = [];
         var upSprites = [];
         var rightSprites = [];
         var leftSprites = [];
-
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 0, 32, 32)), "down0"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down1"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 0, 32, 32)), "down2"); 
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down3");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 32, 32, 32)), "left0");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left1");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 32, 32, 32)), "left2");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left3");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 64, 32, 32)), "right0");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right1");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 64, 32, 32)), "right2");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right3");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 96, 32, 32)), "up0");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up1");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 96, 32, 32)), "up2");
-        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up3");
 
         var i,d,l,r,u;
         for (i=0; i<=3;i++){
@@ -70,19 +57,14 @@ var FirstLayer = cc.Layer.extend({
         var action_right = new cc.RepeatForever(new cc.Animate(new cc.Animation(rightSprites, 0.2)));
         var action_up = new cc.RepeatForever(new cc.Animate(new cc.Animation(upSprites, 0.2)));
 
-        var moveLeft = cc.moveBy(0.1, cc.p(-10, 0));
-        var moveUp = cc.moveBy(0.1, cc.p(0, 10));
-        var moveRight = cc.moveBy(0.1, cc.p(10, 0));
-        var moveDown = cc.moveBy(0.1, cc.p(0, -10));
-
-        var action_move_left = new cc.RepeatForever(moveLeft);
-        var action_move_up = new cc.RepeatForever(moveUp);
-        var action_move_right = new cc.RepeatForever(moveRight);
-        var action_move_down = new cc.RepeatForever(moveDown);
+        var action_move_left = new cc.RepeatForever(cc.moveBy(0.1, cc.p(-10, 0)));
+        var action_move_up = new cc.RepeatForever(cc.moveBy(0.1, cc.p(0, 10)));
+        var action_move_right = new cc.RepeatForever(cc.moveBy(0.1, cc.p(10, 0)));
+        var action_move_down = new cc.RepeatForever(cc.moveBy(0.1, cc.p(0, -10)));
 
         if (keyCode == 37) {
 
-            if( target.isKeyDown != true){
+            if( target.isKeyDown != true) {
                 target.sprite.runAction(action_left);
                 target.sprite.runAction(action_move_left);
             }
@@ -90,7 +72,7 @@ var FirstLayer = cc.Layer.extend({
             //左
         } else if (keyCode == 38) {
 
-            if( target.isKeyDown != true){
+            if( target.isKeyDown != true) {
                 target.sprite.runAction(action_up);
                 target.sprite.runAction(action_move_up);
             }
@@ -98,7 +80,7 @@ var FirstLayer = cc.Layer.extend({
             //上
         } else if (keyCode == 39) {
  
-            if( target.isKeyDown != true){
+            if( target.isKeyDown != true) {
                 target.sprite.runAction(action_right);
                 target.sprite.runAction(action_move_right);
             }
@@ -106,13 +88,33 @@ var FirstLayer = cc.Layer.extend({
             //右
         } else if (keyCode == 40) {
  
-            if( target.isKeyDown != true){
+            if( target.isKeyDown != true) {
                 target.sprite.runAction(action_down);
                 target.sprite.runAction(action_move_down);
             }
             //下
             target.isKeyDown = true;
         }
+    },
+
+    init : function () {
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 0, 32, 32)), "down0"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down1"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 0, 32, 32)), "down2"); 
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 0, 32, 32)), "down3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 32, 32, 32)), "left0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 32, 32, 32)), "left2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 32, 32, 32)), "left3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 64, 32, 32)), "right0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 64, 32, 32)), "right2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 64, 32, 32)), "right3");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(0, 96, 32, 32)), "up0");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up1");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(64, 96, 32, 32)), "up2");
+        cc.spriteFrameCache.addSpriteFrame(new cc.SpriteFrame(res.mainCharacter, cc.rect(32, 96, 32, 32)), "up3");
+
     }
 
 });
