@@ -1,17 +1,20 @@
 
 var FirstLayer = cc.Layer.extend({
     sprite:null,
+    mainmap:null,
     isKeyDown:null,
     collisionLayer:null,
     ctor:function () {
         this._super();
+        cc.director.setProjection(cc.Director.PROJECTION_2D);
         this.init();
+
         var size = cc.winSize;
 
         this.sprite = new cc.Sprite(res.mainCharacter, cc.rect(0, 0, 32, 32));
          
-        var tiledMap = new cc.TMXTiledMap(res.map1);
-        this.addChild(tiledMap);
+        this.mainmap = new cc.TMXTiledMap(res.colormap);
+        this.addChild(this.mainmap);
 
         this.sprite.attr({x: size.width/2, y: size.height/2});
         this.addChild(this.sprite);
@@ -61,37 +64,45 @@ var FirstLayer = cc.Layer.extend({
         var action_move_up = new cc.RepeatForever(cc.moveBy(0.1, cc.p(0, 10)));
         var action_move_right = new cc.RepeatForever(cc.moveBy(0.1, cc.p(10, 0)));
         var action_move_down = new cc.RepeatForever(cc.moveBy(0.1, cc.p(0, -10)));
+    
+        console.log("debug : " + target.sprite.x/32 + " " + target.sprite.y/32 + " " + cc.p(target.sprite.x, target.sprite.y));
+        var gid = target.collisionLayer.getTileGIDAt(cc.p(parseInt(target.sprite.x/32), parseInt(target.sprite.y/32)));
+        console.log("debug : " + gid);
 
         if (keyCode == 37) {
 
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_left);
-                target.sprite.runAction(action_move_left);
+                // target.sprite.runAction(action_move_left);
             }
+            target.mainmap.setPosition(cc.p(target.mainmap.x+10,target.mainmap.y));
             target.isKeyDown = true;
             //左
         } else if (keyCode == 38) {
 
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_up);
-                target.sprite.runAction(action_move_up);
+                // target.sprite.runAction(action_move_up);
             }
+            target.mainmap.setPosition(cc.p(target.mainmap.x,target.mainmap.y-10));
             target.isKeyDown = true;
             //上
         } else if (keyCode == 39) {
  
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_right);
-                target.sprite.runAction(action_move_right);
+                // target.sprite.runAction(action_move_right);
             }
+            target.mainmap.setPosition(cc.p(target.mainmap.x-10,target.mainmap.y));
            target.isKeyDown = true;
             //右
         } else if (keyCode == 40) {
  
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_down);
-                target.sprite.runAction(action_move_down);
+                // target.sprite.runAction(action_move_down);
             }
+            target.mainmap.setPosition(cc.p(target.mainmap.x,target.mainmap.y+10));
             //下
             target.isKeyDown = true;
         }
