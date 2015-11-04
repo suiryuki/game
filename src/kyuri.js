@@ -30,6 +30,7 @@ var FirstLayer = cc.Layer.extend({
                 var target = event.getCurrentTarget();
                 target.isKeyDown = false;
                 target.sprite.stopAllActions();
+                target.mainmap.stopAllActions();
             } 
         }, this);
     },
@@ -73,36 +74,36 @@ var FirstLayer = cc.Layer.extend({
 
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_left);
+                target.mainmap.runAction(action_move_right);
                 // target.sprite.runAction(action_move_left);
             }
-            target.mainmap.setPosition(cc.p(target.mainmap.x+10,target.mainmap.y));
             target.isKeyDown = true;
             //左
         } else if (keyCode == 38) {
 
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_up);
+                target.mainmap.runAction(action_move_down);
                 // target.sprite.runAction(action_move_up);
             }
-            target.mainmap.setPosition(cc.p(target.mainmap.x,target.mainmap.y-10));
             target.isKeyDown = true;
             //上
         } else if (keyCode == 39) {
  
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_right);
+                target.mainmap.runAction(action_move_left);
                 // target.sprite.runAction(action_move_right);
             }
-            target.mainmap.setPosition(cc.p(target.mainmap.x-10,target.mainmap.y));
            target.isKeyDown = true;
             //右
         } else if (keyCode == 40) {
  
             if( target.isKeyDown != true) {
                 target.sprite.runAction(action_down);
+                target.mainmap.runAction(action_move_up);
                 // target.sprite.runAction(action_move_down);
             }
-            target.mainmap.setPosition(cc.p(target.mainmap.x,target.mainmap.y+10));
             //下
             target.isKeyDown = true;
         }
@@ -137,6 +138,5 @@ var FirstScene = cc.Scene.extend({
         this.addChild(layer);
     }
 });
-
 
 
